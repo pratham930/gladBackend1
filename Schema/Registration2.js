@@ -25,7 +25,7 @@ const rgisterSchema = new mongoose.Schema(
     // pimage: { type: String },
     role: {
       type: String,
-      enum: ['staff', 'admin', 'seller'],
+      enum: ['staff', 'admin', 'seller']
       // default: "user",
     },
 
