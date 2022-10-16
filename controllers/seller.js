@@ -8,11 +8,6 @@ import Deposite from '../Schema/deposite.js';
 // import Registration2 from "../Schema/Registration2.js";
 
 
-
-
-
-
-
 class sellerController {
 
 

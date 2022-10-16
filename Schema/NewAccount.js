@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from "bcryptjs";
+const { Schema } = mongoose;
 import jwt from "jsonwebtoken";
+// import Invoice from './costumersInvoice.js';
 
 const NewUserSchema = new mongoose.Schema(
 
@@ -18,9 +20,15 @@ const NewUserSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        Invoce: [
+        // Invoce: [
 
-        ],
+        // ],
+
+        Invoces:[{ type: Schema.Types.ObjectId, ref: 'Invoice' },
+        { type: Schema.Types.ObjectId, ref: 'Miscellaneous' },
+        { type: Schema.Types.ObjectId, ref: 'Deposit' },
+        { type: Schema.Types.ObjectId, ref: 'Expances' }],
+
         role: {
             type: String,
             enum: ['costumer', 'supplier'],

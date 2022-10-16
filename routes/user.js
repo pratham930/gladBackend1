@@ -43,6 +43,9 @@ router.get('/getStaffByid/:_id', authenticate, middile.admin, userController.get
 
 router.get('/getMember', userController.getMember);
 router.get('/getMemberByid/:_id', userController.getMemberByid);
+router.get('/getMemberInvocesById/:_id', userController.getMemberInvocesById);
+
+
 
 
 //post

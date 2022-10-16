@@ -17,6 +17,10 @@ const rgisterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    memberId:{
+      type: String,
+
+    },
     password: { type: String },
     // pimage: { type: String },
     role: {

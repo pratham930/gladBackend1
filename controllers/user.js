@@ -25,7 +25,7 @@ class userController {
   static register = async (req, res) => {
 
     try {
-      const { phonenumber, name, email, role, password } = req.body;
+      const { phonenumber, name, email, role, password,memberId } = req.body;
 
       // const pimage = req.files['pimage'][0].filename
       const userLogin = await Registration2.findOne({ phonenumber: phonenumber });
@@ -37,7 +37,7 @@ class userController {
         }
       }
       else {
-        const lol = { phonenumber, name, email, role, password }
+        const lol = { phonenumber, name, email, role, password, memberId }
         const register = new Registration2(lol)
         await register.save()
         res.status(201).send({ message: "succesfull", })
@@ -93,29 +93,18 @@ class userController {
 
   static addInvoceToMemberId = async (req, res) => {
     try {
-      // const {
-      //   personName,
-      //   mobile,
-      //   invoiceDetails,
-      //   billNumber,
-      //   enterDescription,
-      //   totalAmount,
-      // } = req.body
-      // const addAttachment = req.files['addAttachment'][0].filename
-      // if (!totalAmount || !mobile || !personName || !billNumber) {
-      //   res.send({ status: 'failed', message: 'All Fields are Required' })
-      // }
+  
       const { _id } = req.params
       // let id = '63335fbcfa6ae82c08546c2c'
       const userLogin = await NewUser.findOne({ _id })
       if (userLogin) {
-        // const lol = { ...req.body, addAttachment, createdby: id }
+       
 
         await NewUser.findByIdAndUpdate(_id, {
-          $push: { Invoce: req.body },
+          $push: { Invoces: req.body._id },
         })
 
-        res.send({ status: 'success', message: 'costumersInvoice saved' })
+        res.send({ status: 'success', message: 'Invoices saved' })
       }
     } catch (error) {
       console.log(error)
@@ -123,6 +112,12 @@ class userController {
     }
   }
 
+  static getMemberInvocesById = async (req, res) => {
+    const { _id } = req.params
+
+    const deposite = await NewUser.findOne({_id}).populate("Invoice")
+    res.json(deposite)
+  }
 
 
 
