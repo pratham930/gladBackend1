@@ -24,38 +24,6 @@ class staffController {
 
 
 
-  // static Miscellaneous = async (req, res) => {
-  //   try {
-  //     const {
-  //       personName,
-  //       mobile,
-  //       invoiceDetails,
-  //       billNumber,
-  //       enterDescription,
-  //       totalAmount,
-  //     } = req.body
-  //     const addAttachment = req.files['addAttachment'][0].filename
-  //     if (!totalAmount || !mobile || !personName || !billNumber) {
-  //       res.send({ status: 'failed', message: 'All Fields are Required' })
-  //     }
-  //     let id = '63335fbcfa6ae82c08546c2c'
-  //     const userLogin = await registration.findOne({ _id: id })
-  //     if (userLogin) {
-  //       const lol = { ...req.body, addAttachment, createdby: id }
-
-  //       await registration.findByIdAndUpdate(id, {
-  //         $push: { miscellaneous: lol },
-  //       })
-
-  //       res.send({ status: 'success', message: 'costumersInvoice saved' })
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(422).json({ error: 'not found data' })
-  //   }
-  // }
-
-
 
   static costumersInvoice = async (req, res) => {
 
@@ -217,7 +185,7 @@ class staffController {
     const expances = new Expances(lol)
     try {
       await expances.save()
-      res.status(201).send(expances)
+      res.status(201).send(expances,{status: "success"})
     } catch (err) {
       res.status(400).send(err)
     }
@@ -232,7 +200,7 @@ class staffController {
     const deposite = new Deposite(lol)
     try {
       await deposite.save()
-      res.status(201).send(deposite)
+      res.status(201).send(deposite,{status: "success"})
     } catch (err) {
       res.status(400).send(err)
     }
@@ -247,7 +215,7 @@ class staffController {
     const miscellaneous = new Miscellaneous(lol)
     try {
       await miscellaneous.save()
-      res.status(201).send(miscellaneous)
+      res.status(201).send(miscellaneous,{status: "success"})
     } catch (err) {
       res.status(400).send(err)
     }
@@ -261,10 +229,12 @@ class staffController {
     const locations = await Location.find({})
     res.send(locations)
   };
+
   static getProduct = async (req, res) => {
     const product = await Product.find({})
     res.send(product)
   };
+
   static getcategory = async (req, res) => {
     const category = await Category.find({})
     res.json(category)

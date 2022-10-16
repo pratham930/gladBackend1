@@ -40,7 +40,7 @@ class userController {
         const lol = { phonenumber, name, email, role, password, memberId }
         const register = new Registration2(lol)
         await register.save()
-        res.status(201).send({ message: "succesfull", })
+        res.status(201).send({ message: "succesfull", status: "success"})
       }
     }
     catch (error) {
@@ -263,7 +263,7 @@ class userController {
     const category = new Category(req.body)
     try {
       await category.save()
-      res.status(201).send(category)
+      res.status(201).send(category,{status: "success"})
     } catch (e) {
       res.status(400).send(e)
     }
@@ -275,7 +275,7 @@ class userController {
     const location = new Location(req.body)
     try {
       await location.save()
-      res.status(201).send(location)
+      res.status(201).send(location,{status: "success"})
     } catch (e) {
       res.status(400).send(e)
     }
