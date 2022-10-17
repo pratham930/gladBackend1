@@ -11,6 +11,7 @@ import Miscellaneous from '../Schema/Miscellaneous.js';
 import Deposite from '../Schema/deposite.js';
 import NewUser from "../Schema/NewAccount.js"
 import Expances from '../Schema/expances.js';
+import StoreInvoice from "../Schema/storeInvoice.js"
 // import Miscellaneous from '../Schema/Miscellaneous.js';
 
 // process.env.SECRET_KEY
@@ -25,7 +26,7 @@ class userController {
   static register = async (req, res) => {
 
     try {
-      const { phonenumber, name, email, role, password,memberId } = req.body;
+      const { phonenumber, name, email, role, password, memberId } = req.body;
 
       // const pimage = req.files['pimage'][0].filename
       const userLogin = await Registration2.findOne({ phonenumber: phonenumber });
@@ -40,7 +41,7 @@ class userController {
         const lol = { phonenumber, name, email, role, password, memberId }
         const register = new Registration2(lol)
         await register.save()
-        res.status(201).send({ message: "succesfull", status: "success"})
+        res.status(201).send({ message: "succesfull", status: "success" })
       }
     }
     catch (error) {
@@ -93,15 +94,15 @@ class userController {
 
   static addInvoceToMemberId = async (req, res) => {
     try {
-  
+      console.log(req.body.Invoces)
       const { _id } = req.params
       // let id = '63335fbcfa6ae82c08546c2c'
       const userLogin = await NewUser.findOne({ _id })
       if (userLogin) {
-       
+
 
         await NewUser.findByIdAndUpdate(_id, {
-          $push: { Invoces: req.body._id },
+          $push: { Invoces: req.body.Invoces },
         })
 
         res.send({ status: 'success', message: 'Invoices saved' })
@@ -114,8 +115,8 @@ class userController {
 
   static getMemberInvocesById = async (req, res) => {
     const { _id } = req.params
-
-    const deposite = await NewUser.findOne({_id}).populate("Invoice")
+    console.log(_id)
+    const deposite = await NewUser.findOne({ _id }).populate('Invoice')
     res.json(deposite)
   }
 
@@ -263,7 +264,7 @@ class userController {
     const category = new Category(req.body)
     try {
       await category.save()
-      res.status(201).send(category,{status: "success"})
+      res.status(201).send(category, { status: "success" })
     } catch (e) {
       res.status(400).send(e)
     }
@@ -275,7 +276,7 @@ class userController {
     const location = new Location(req.body)
     try {
       await location.save()
-      res.status(201).send(location,{status: "success"})
+      res.status(201).send(location, { status: "success" })
     } catch (e) {
       res.status(400).send(e)
     }
@@ -307,6 +308,11 @@ class userController {
     const invoice = await Invoice.find({})
     res.json(invoice)
   }
+  static getStoreInvoice = async (req, res) => {
+    const invoice = await StoreInvoice.find({})
+    res.json(invoice)
+  }
+
 
   static getexpances = async (req, res) => {
     const invoice = await Expances.find({})

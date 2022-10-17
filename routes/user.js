@@ -35,6 +35,7 @@ router.get('/getexpances', authenticate, middile.admin, userController.getexpanc
 router.get('/GetdailyExpances', authenticate, middile.admin, userController.GetdailyExpances);
 router.get('/getProductByLoaction/:location', authenticate, middile.admin, userController.getProductByLoaction);
 router.get('/getStaffByid/:_id', authenticate, middile.admin, userController.getStaffByid);
+router.get('/getStoreInvoice', authenticate, middile.admin, userController.getStoreInvoice);
 
 
 

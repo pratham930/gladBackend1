@@ -22,9 +22,6 @@ class staffController {
 
 
 
-
-
-
   static costumersInvoice = async (req, res) => {
 
 
@@ -185,7 +182,7 @@ class staffController {
     const expances = new Expances(lol)
     try {
       await expances.save()
-      res.status(201).send(expances,{status: "success"})
+      res.status(201).send(expances, { status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
@@ -200,7 +197,7 @@ class staffController {
     const deposite = new Deposite(lol)
     try {
       await deposite.save()
-      res.status(201).send(deposite,{status: "success"})
+      res.status(201).send(deposite, { status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
@@ -215,7 +212,7 @@ class staffController {
     const miscellaneous = new Miscellaneous(lol)
     try {
       await miscellaneous.save()
-      res.status(201).send(miscellaneous,{status: "success"})
+      res.status(201).send(miscellaneous, { status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
