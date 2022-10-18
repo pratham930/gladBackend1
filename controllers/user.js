@@ -403,6 +403,29 @@ class userController {
 
 
 
+  static editProfileById = async (req, res) => {
+
+    try {
+      const { _id } = req.params
+      const { email, name, phonenumber } = req.body
+      console.log(req.body, "272")
+      // const userLogin = await Registration2.findOne({ _id: req.user._id })
+
+      if (req.body) {
+        await Registration2.findByIdAndUpdate(_id, { $set: { name: name, phonenumber: phonenumber, email: email } })
+        res.send({ "status": "success", "message": "Profile changed succesfully" })
+      }
+      else {
+        res.send({ "status": "failed", "message": "All Fields are Required" })
+      }
+    }
+    catch (error) {
+      console.log(error)
+      return res.status(422).json({ error: "not found data" })
+    }
+  }
+
+
   static editProfilePic = async (req, res) => {
 
     try {

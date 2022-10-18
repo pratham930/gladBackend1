@@ -61,6 +61,8 @@ router.post('/addNewmember', authenticate, middile.admin, userController.addNewm
 router.patch('/editProfile', authenticate, userController.editProfile);
 router.patch('/changeUserPassword', authenticate, middile.admin, userController.changeUserPassword);
 router.patch('/editProfilePic', authenticate, userController.editProfilePic);
+router.patch('/editProfileById/:_id', authenticate, userController.editProfileById);
+
 router.patch('/addInvoceToMemberId/:_id', authenticate, userController.addInvoceToMemberId);
 
 
