@@ -178,39 +178,67 @@ class staffController {
 
   static addExpances = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
-    let lol = { ...req.body, createdby: req.user._id, addAttachment }
-    const expances = new Expances(lol)
     try {
+      let lol = { ...req.body, createdby: req.user._id, addAttachment }
+      const expances = new Expances(lol)
+
       await expances.save()
-      res.status(201).send(expances, { status: "success" })
+      res.send(expances, { status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
-    console.log(expances)
+    // console.log(expances)
 
   };
 
-
   static addDeposite = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
-
     const { billNumber, DepositebillNumber, cash, credit } = req.body
 
-    // Invoice
-    const userProduct = await Invoice.findOne({ billNumber })
-    console.log(userProduct)
-
-    let lol = { ...req.body, createdby: req.user._id, addAttachment }
-    const deposite = new Deposite(lol)
     try {
+      let lol = { ...req.body, createdby: req.user._id, addAttachment }
+
+      const userProduct = await Invoice.findOne({ billNumber })
+
+      if (userProduct) {
+        console.log(userProduct)
+
+      }
+      const deposite = new Deposite(lol)
+
       await deposite.save()
-      res.status(201).send(deposite, { status: "success" })
+      res.send({ status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
     // console.log(deposite)
 
   };
+
+
+  // static addDeposite = async (req, res) => {
+  //   const addAttachment = req.files['addAttachment'][0].filename
+
+  //   const { billNumber, DepositebillNumber, cash, credit } = req.body
+
+  //   // // Invoice
+  //   // const userProduct = await Invoice.findOne({ billNumber })
+  //   console.log(req.body)
+
+  //   let lol = { ...req.body, createdby: req.user._id, addAttachment }
+  //   try {
+  //     const deposite = new Deposite(lol)
+
+  //     await deposite.save()
+  //     res.send(deposite, { status: "success" })
+  //     console.log(deposite, '208')
+
+  //   } catch (err) {
+  //     res.status(400).send(err)
+  //   }
+  //   // console.log(deposite)
+
+  // };
 
 
 
