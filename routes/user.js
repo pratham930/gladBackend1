@@ -48,11 +48,11 @@ router.get('/getMemberInvocesById/:_id', userController.getMemberInvocesById);
 
 
 
-router.get('/GetDepositeById/:_id', userController.GetDepositeById);
-router.get('/GetMiscellaneousById/:_id', userController.GetMiscellaneousById);
-router.get('/getexpancesById/:_id', userController.getexpancesById);
-router.get('/getStoreInvoiceById/:_id', userController.getStoreInvoiceById);
-router.get('/GetcostumersInvoiceById/:_id', userController.GetcostumersInvoiceById);
+router.get('/GetDepositeById/:_id', authenticate, middile.admin, userController.GetDepositeById);
+router.get('/GetMiscellaneousById/:_id', authenticate, middile.admin, userController.GetMiscellaneousById);
+router.get('/getexpancesById/:_id', authenticate, middile.admin, userController.getexpancesById);
+router.get('/getStoreInvoiceById/:_id', authenticate, middile.admin, userController.getStoreInvoiceById);
+router.get('/GetcostumersInvoiceById/:_id', authenticate, middile.admin, userController.GetcostumersInvoiceById);
 
 
 
@@ -72,6 +72,8 @@ router.post('/addNewmember', authenticate, middile.admin, userController.addNewm
 //patch request
 router.patch('/editProfile', authenticate, userController.editProfile);
 router.patch('/changeUserPassword', authenticate, middile.admin, userController.changeUserPassword);
+// router.patch('/changeUserPassword', authenticate, middile.admin, userController.changeUserPassword);
+
 router.patch('/editProfilePic', authenticate, userController.editProfilePic);
 router.patch('/editProfileById/:_id', authenticate, userController.editProfileById);
 

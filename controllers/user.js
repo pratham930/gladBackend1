@@ -343,8 +343,10 @@ class userController {
   }
 
   static GetcostumersInvoiceById = async (req, res) => {
-    const { _id } = req.param
-    const invoice = await Invoice.find({ _id })
+    const { _id } = req.params
+    console.log(_id)
+    const invoice = await Invoice.findOne({ _id })
+    console.log(invoice)
     res.json(invoice)
   }
 
@@ -354,9 +356,9 @@ class userController {
     res.json(invoice)
   }
   static getStoreInvoiceById = async (req, res) => {
-    const { _id } = req.param
+    const { _id } = req.params
 
-    const invoice = await StoreInvoice.find({ _id })
+    const invoice = await StoreInvoice.findOne({ _id })
     res.json(invoice)
   }
 
@@ -366,9 +368,9 @@ class userController {
     res.json(invoice)
   }
   static getexpancesById = async (req, res) => {
-    const { _id } = req.param
+    const { _id } = req.params
 
-    const invoice = await Expances.find({ _id })
+    const invoice = await Expances.findOne({ _id })
     res.json(invoice)
   }
 
@@ -377,9 +379,9 @@ class userController {
     res.json(invoice)
   }
   static GetMiscellaneousById = async (req, res) => {
-    const { _id } = req.param
+    const { _id } = req.params
 
-    const invoice = await Miscellaneous.find({ _id })
+    const invoice = await Miscellaneous.findOne({ _id })
     res.json(invoice)
   }
 
@@ -388,9 +390,9 @@ class userController {
     res.json(deposite)
   }
   static GetDepositeById = async (req, res) => {
-    const { _id } = req.param
+    const { _id } = req.params
 
-    const deposite = await Deposite.find({ _id })
+    const deposite = await Deposite.findOne({ _id })
     res.json(deposite)
   }
 
@@ -411,19 +413,19 @@ class userController {
 
     try {
       // const { password, password_confirmation,Oldpassword } = req.body
-      const { password, password_confirmation, id } = req.body
+      const { password, password_confirmation, _id } = req.body
 
       if (password && password_confirmation) {
         if (password !== password_confirmation) {
           res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
         }
-        const userLogin = await Registration2.findOne({ _id: id })
+        const userLogin = await Registration2.findOne({ _id })
         console.log(userLogin)
         if (userLogin) {
 
           const salt = await bcrypt.genSalt(10)
           const newHashPassword = await bcrypt.hash(password, salt)
-          await Registration2.findByIdAndUpdate(id, { $set: { password: newHashPassword } })
+          await Registration2.findByIdAndUpdate(_id, { $set: { password: newHashPassword } })
           res.send({ "status": "success", "message": "Password changed succesfully" })
         }
         // }
@@ -439,6 +441,38 @@ class userController {
     }
   }
 
+
+  // static changeUserPasswordByid = async (req, res) => {
+
+  //   try {
+  //     // const { password, password_confirmation,Oldpassword } = req.body
+  //     const { password, password_confirmation, id } = req.body
+
+  //     if (password && password_confirmation) {
+  //       if (password !== password_confirmation) {
+  //         res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
+  //       }
+  //       const userLogin = await Registration2.findByIdAndUpdate({ _id: id })
+  //       console.log(userLogin)
+  //       if (userLogin) {
+
+  //         const salt = await bcrypt.genSalt(10)
+  //         const newHashPassword = await bcrypt.hash(password, salt)
+  //         await Registration2.findByIdAndUpdate(id, { $set: { password: newHashPassword } })
+  //         res.send({ "status": "success", "message": "Password changed succesfully" })
+  //       }
+  //       // }
+
+  //       else {
+  //         res.send({ "status": "failed", "message": "All Fields are Required" })
+  //       }
+  //     }
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //     return res.status(422).json({ error: "not found data" })
+  //   }
+  // }
 
 
 
