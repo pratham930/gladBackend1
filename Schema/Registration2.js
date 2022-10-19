@@ -17,7 +17,7 @@ const rgisterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    memberId:{
+    memberId: {
       type: String,
 
     },
@@ -48,18 +48,3 @@ rgisterSchema.pre('save', async function (next) {
 const Registration2 = mongoose.model('Registration2', rgisterSchema)
 export default Registration2;
 
-// import mongoose from "mongoose"
-
-// const Schema = new mongoose.Schema({
-//     name:{type:String, required:true},
-//     email:{type:String,required:true},
-//     password:{type:String,required:true},
-//     cpassword:{type:String,required:true},
-//     mobile:{type:String,required:true},
-//     work:{type:String},
-
-// })
-
-// const Registration = mongoose.model('Registration',Schema);
-
-//  export default Registration;

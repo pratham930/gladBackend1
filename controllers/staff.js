@@ -39,7 +39,7 @@ class staffController {
       } = req.body
 
       if (!totalAmount || !name || !billNumber) {
-        res.send({ status: 'failed', message: 'All Fields are Required' })
+        res.send(req.body, { status: 'failed', message: 'All Fields are Required', })
       }
 
       for (let index = 0; index < products.length; index++) {

@@ -79,7 +79,10 @@ class userController {
       return res.status(422).json({ error: "not found data" })
     }
   }
-
+  static getLocation = async (req, res) => {
+    const locations = await Location.find({})
+    res.send(locations)
+  };
 
   static getMember = async (req, res) => {
     const deposite = await NewUser.find({})
@@ -91,6 +94,36 @@ class userController {
     const product = await NewUser.find({ _id })
     res.json(product)
   }
+
+  static deleteMemberByid = async (req, res) => {
+    const { _id } = req.params
+    const product = await NewUser.findByIdAndDelete({ _id })
+    res.json(product)
+  }
+  static deleteProductByid = async (req, res) => {
+    const { _id } = req.params
+    const product = await Product.findByIdAndDelete({ _id })
+    console.log(product)
+    res.json({ status: "success" })
+  }
+
+  static updateProductByid = async (req, res) => {
+    const { _id } = req.params
+    const { quantity, name } = req.body
+
+    const product = await Product.findByIdAndUpdate({ _id }, { name: name })
+    console.log(product)
+    res.json({ status: 'success' })
+  }
+
+  static updateMemberByid = async (req, res) => {
+    const { _id } = req.params
+
+    const product = await NewUser.findByIdAndUpdate({ _id }, { role: "supplier" })
+    res.json(product, { status: 'success' })
+  }
+
+
 
   static addInvoceToMemberId = async (req, res) => {
     try {
@@ -308,8 +341,22 @@ class userController {
     const invoice = await Invoice.find({})
     res.json(invoice)
   }
+
+  static GetcostumersInvoiceById = async (req, res) => {
+    const { _id } = req.param
+    const invoice = await Invoice.find({ _id })
+    res.json(invoice)
+  }
+
+
   static getStoreInvoice = async (req, res) => {
     const invoice = await StoreInvoice.find({})
+    res.json(invoice)
+  }
+  static getStoreInvoiceById = async (req, res) => {
+    const { _id } = req.param
+
+    const invoice = await StoreInvoice.find({ _id })
     res.json(invoice)
   }
 
@@ -318,10 +365,21 @@ class userController {
     const invoice = await Expances.find({})
     res.json(invoice)
   }
+  static getexpancesById = async (req, res) => {
+    const { _id } = req.param
 
+    const invoice = await Expances.find({ _id })
+    res.json(invoice)
+  }
 
   static GetMiscellaneous = async (req, res) => {
     const invoice = await Miscellaneous.find({})
+    res.json(invoice)
+  }
+  static GetMiscellaneousById = async (req, res) => {
+    const { _id } = req.param
+
+    const invoice = await Miscellaneous.find({ _id })
     res.json(invoice)
   }
 
@@ -329,7 +387,12 @@ class userController {
     const deposite = await Deposite.find({})
     res.json(deposite)
   }
+  static GetDepositeById = async (req, res) => {
+    const { _id } = req.param
 
+    const deposite = await Deposite.find({ _id })
+    res.json(deposite)
+  }
 
   static getStaff = async (req, res) => {
     try {

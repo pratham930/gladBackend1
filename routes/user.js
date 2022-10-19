@@ -48,6 +48,18 @@ router.get('/getMemberInvocesById/:_id', userController.getMemberInvocesById);
 
 
 
+router.get('/GetDepositeById/:_id', userController.GetDepositeById);
+router.get('/GetMiscellaneousById/:_id', userController.GetMiscellaneousById);
+router.get('/getexpancesById/:_id', userController.getexpancesById);
+router.get('/getStoreInvoiceById/:_id', userController.getStoreInvoiceById);
+router.get('/GetcostumersInvoiceById/:_id', userController.GetcostumersInvoiceById);
+
+
+
+
+
+
+
 
 //post
 
@@ -64,6 +76,15 @@ router.patch('/editProfilePic', authenticate, userController.editProfilePic);
 router.patch('/editProfileById/:_id', authenticate, userController.editProfileById);
 
 router.patch('/addInvoceToMemberId/:_id', authenticate, userController.addInvoceToMemberId);
+router.patch('/updateMemberByid/:_id', userController.updateMemberByid);
+
+router.patch('/updateProductByid/:_id', userController.updateProductByid);
+
+
+//delete request
+
+router.delete('/deleteMemberByid/:_id', authenticate, userController.deleteMemberByid);
+router.delete('/deleteProductByid/:_id', authenticate, userController.deleteProductByid);
 
 
 export default router;
