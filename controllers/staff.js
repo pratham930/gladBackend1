@@ -193,6 +193,13 @@ class staffController {
 
   static addDeposite = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
+
+    const { billNumber, DepositebillNumber, cash, credit } = req.body
+
+    // Invoice
+    const userProduct = await Invoice.findOne({ billNumber })
+    console.log(userProduct)
+
     let lol = { ...req.body, createdby: req.user._id, addAttachment }
     const deposite = new Deposite(lol)
     try {
@@ -201,9 +208,11 @@ class staffController {
     } catch (err) {
       res.status(400).send(err)
     }
-    console.log(deposite)
+    // console.log(deposite)
 
   };
+
+
 
 
   static addmiscellaneous = async (req, res) => {
