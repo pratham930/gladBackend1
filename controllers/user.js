@@ -91,7 +91,7 @@ class userController {
 
   static getMemberByid = async (req, res) => {
     const { _id } = req.params
-    const product = await NewUser.find({ _id })
+    const product = await NewUser.findOne({ _id }).populate('Invoces')
     res.json(product)
   }
 
@@ -134,11 +134,11 @@ class userController {
       if (userLogin) {
 
 
-        await NewUser.findByIdAndUpdate(_id, {
+        const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
           $push: { Invoces: req.body.Invoces },
-        })
-
-        res.send({ status: 'success', message: 'Invoices saved' })
+        }).populate('Invoces')
+        console.log(memberwithinvoces)
+        res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
       }
     } catch (error) {
       console.log(error)
@@ -146,12 +146,12 @@ class userController {
     }
   }
 
-  static getMemberInvocesById = async (req, res) => {
-    const { _id } = req.params
-    console.log(_id)
-    const deposite = await NewUser.findOne({ _id }).populate('Invoice')
-    res.json(deposite)
-  }
+  // static getMemberInvocesById = async (req, res) => {
+  //   const { _id } = req.params
+  //   console.log(_id)
+  //   const deposite = await NewUser.findOne({ _id }).populate('Invoice')
+  //   res.json(deposite)
+  // }
 
 
 

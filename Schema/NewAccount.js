@@ -24,7 +24,8 @@ const NewUserSchema = new mongoose.Schema(
 
         // ],
 
-        Invoces: [{ type: Schema.Types.ObjectId, ref: 'Invoice' },
+        Invoces: [
+            { type: Schema.Types.ObjectId, ref: 'Invoice' },
             // { type: Schema.Types.ObjectId, ref: 'Miscellaneous' },
             // { type: Schema.Types.ObjectId, ref: 'Deposit' },
             // { type: Schema.Types.ObjectId, ref: 'Expances' }

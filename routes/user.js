@@ -44,7 +44,7 @@ router.get('/getStoreInvoice', authenticate, middile.admin, userController.getSt
 
 router.get('/getMember', userController.getMember);
 router.get('/getMemberByid/:_id', userController.getMemberByid);
-router.get('/getMemberInvocesById/:_id', userController.getMemberInvocesById);
+// router.get('/getMemberInvocesById/:_id', userController.getMemberInvocesById);
 
 
 

@@ -114,7 +114,7 @@ class staffController {
 
         let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
         const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity } })
-        console.log(userNewProduct, "85")
+        // console.log(userNewProduct, "85")
       }
 
 
@@ -163,7 +163,6 @@ class staffController {
 
 
 
-
   static addLoaction = async (req, res) => {
     const location = new Location(req.body)
     try {
@@ -175,6 +174,7 @@ class staffController {
     console.log(req.body)
     res.send(req.body)
   };
+
 
   static addExpances = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
@@ -201,8 +201,11 @@ class staffController {
       const userProduct = await Invoice.findOne({ billNumber })
 
       if (userProduct) {
-        console.log(userProduct)
+        console.log(userProduct.credit)
 
+        let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
+        const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
+        console.log(userNewProduct, 'deposite succesfull');
       }
       const deposite = new Deposite(lol)
 
