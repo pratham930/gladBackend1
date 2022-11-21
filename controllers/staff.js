@@ -124,18 +124,7 @@ class staffController {
       }
 
 
-      // const userProduct = await Product.findOneAndUpdate(
-      //   { name: selectProduct },
-      //   // { $set: { quantity: quantity } }
-      // )
-      // console.log(userProduct.quantity - quantity, '80')
 
-      // let newQuantity = userProduct.quantity - quantity
-      // const userNewProduct = await Product.findOneAndUpdate(
-      //   { name: selectProduct },
-      //   { $set: { Remainingquantity: newQuantity } }
-      // )
-      // console.log(userNewProduct)
 
       const lol = {
         supplierName,
