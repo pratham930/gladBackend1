@@ -179,11 +179,15 @@ class staffController {
   static addExpances = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
     try {
+      console.log(req.body, '182')
+      console.log(addAttachment, '183')
+
       let lol = { ...req.body, createdby: req.user._id, addAttachment }
       const expances = new Expances(lol)
 
-      await expances.save()
-      res.send(expances, { status: "success" })
+      const ram = await expances.save()
+      console.log(ram, '189')
+      res.send({ status: "success" })
     } catch (err) {
       res.status(400).send(err)
     }
