@@ -94,12 +94,19 @@ class staffController {
         supplierName,
         dateOfExportation,
         location,
-        selectProduct,
+
         products,
         billNumber,
         totalAmount,
       } = req.body
 
+      console.log(supplierName,
+        dateOfExportation,
+        location,
+
+        products,
+        billNumber,
+        totalAmount, '108')
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
@@ -119,29 +126,33 @@ class staffController {
 
 
       const addAttachment = req.files['addAttachment'][0].filename
-      if (!totalAmount || !quantity || !supplierName || !selectProduct) {
+
+      console.log(addAttachment, "130")
+      if (!totalAmount || !supplierName) {
         res.send({ status: 'failed', message: 'All Fields are Required' })
       }
 
 
+      else {
+        const lol = {
+          supplierName,
+          location,
 
+          products,
+          billNumber,
+          totalAmount,
+          dateOfExportation,
+          addAttachment,
+          createdby: req.user._id,
+        }
 
-      const lol = {
-        supplierName,
-        location,
-        selectProduct,
-        products,
-        billNumber,
-        totalAmount,
-        dateOfExportation,
-        addAttachment,
-        createdby: req.user._id,
+        const storeinvoice = new StoreInvoice(lol)
+        await storeinvoice.save()
+
+        res.send({ status: 'success', message: 'costumersInvoice saved' })
       }
 
-      const storeinvoice = new StoreInvoice(lol)
-      await storeinvoice.save()
 
-      res.send({ status: 'success', message: 'costumersInvoice saved' })
       //  }
     } catch (error) {
       console.log(error)
