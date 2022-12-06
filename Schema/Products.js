@@ -16,6 +16,10 @@ const productSchema = mongoose.Schema({
     type: Number,
     // required: true,
   },
+  ToBeDelivered: {
+    type: Number,
+    // required: true,
+  },
   location: {
     type: String,
     required: true,
