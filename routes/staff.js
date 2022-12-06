@@ -30,6 +30,10 @@ router.use(
   '/Miscellaneous',
   upload.fields([{ name: 'addAttachment', maxcount: 1 }])
 )
+router.use(
+  '/costumersInvoice',
+  upload.fields([{ name: 'addAttachment', maxcount: 1 }])
+)
 //post request
 router.post('/costumersInvoice', authenticate, middile.staff, staffController.costumersInvoice)
 router.post('/storeInvoice', authenticate, middile.staff, staffController.storeInvoice)

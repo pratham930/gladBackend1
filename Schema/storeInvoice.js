@@ -24,7 +24,7 @@ const StoreSchema = new mongoose.Schema(
     products: [
       {
         selectProduct: { type: String },
-        quantity: { type: Number, required: true },
+        quantity: { type: Number },
       }],
     billNumber: {
       type: String,

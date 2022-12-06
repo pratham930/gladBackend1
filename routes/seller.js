@@ -23,7 +23,7 @@ const router = express.Router()
 
 //get request
 
-router.get('/getAllInvoces', sellerController.getAllInvoces);
+router.get('/getAllInvioces', sellerController.getAllInvioces);
 
 
 

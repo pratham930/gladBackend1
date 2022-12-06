@@ -18,7 +18,7 @@ class sellerController {
   }
 
 
-  static getAllInvoces = async (req, res) => {
+  static getAllInvioces = async (req, res) => {
 
     const expances = await Expances.find({})
     const invoice = await Invoice.find({})
@@ -27,7 +27,7 @@ class sellerController {
 
     const invoices = { ...expances, ...invoice, ...miscellaneous, ...deposite }
 
-    res.json(invoices)
+    res.json(invoice)
   }
 
 

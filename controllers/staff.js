@@ -23,9 +23,6 @@ class staffController {
 
 
   static costumersInvoice = async (req, res) => {
-
-
-
     try {
       const {
         name,
@@ -38,9 +35,10 @@ class staffController {
         credit,
       } = req.body
 
-      if (!totalAmount || !name || !billNumber) {
-        res.send(req.body, { status: 'failed', message: 'All Fields are Required', })
-      }
+      // var products = JSON.parse(req.body.products)
+
+      console.log(req.body)
+      // var products = JSON.parse(req.body.products)
 
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
@@ -73,7 +71,7 @@ class staffController {
         createdby: req.user._id,
       }
       const invoice = new Invoice(lol)
-      await invoice.save(invoice)
+      await invoice.save()
       console.log(invoice)
       res.send({ status: 'success', message: 'costumersInvoice saved' })
       //  }
@@ -94,19 +92,13 @@ class staffController {
         supplierName,
         dateOfExportation,
         location,
-
         products,
+
         billNumber,
-        totalAmount,
+        totalAmount
       } = req.body
-
-      console.log(supplierName,
-        dateOfExportation,
-        location,
-
-        products,
-        billNumber,
-        totalAmount, '108')
+      // var products = JSON.parse(req.body.products)
+      console.log(req.body, '101')
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
@@ -137,13 +129,12 @@ class staffController {
         const lol = {
           supplierName,
           location,
-
           products,
           billNumber,
           totalAmount,
           dateOfExportation,
           addAttachment,
-          createdby: req.user._id,
+          createdby: req.user._id
         }
 
         const storeinvoice = new StoreInvoice(lol)
