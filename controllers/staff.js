@@ -27,7 +27,7 @@ class staffController {
       const {
         name,
         aadharNumber,
-        products,
+
 
         billNumber,
         totalAmount,
@@ -38,23 +38,26 @@ class staffController {
       // var products = JSON.parse(req.body.products)
 
       console.log(req.body)
-      // var products = JSON.parse(req.body.products)
+      var products = JSON.parse(req.body.products)
 
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
+
+
         console.log(element1, "74")
         console.log(element2, "75")
-
 
 
         const userProduct = await Product.findOne({ name: element1 })
         console.log(userProduct, 80)
         console.log(userProduct.quantity - element2, "80")
-
+        console.log(userProduct.ToBeDelivered, "80")
+        let oldToBeDelivered = userProduct.ToBeDelivered
+        let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
         let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
 
-          const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity,ToBeDelivered:element2 } })
+        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
       }
       const addAttachment = req.files['addAttachment'][0].filename
 

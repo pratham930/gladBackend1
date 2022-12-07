@@ -39,14 +39,19 @@ class sellerController {
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
-        const element3 = products[index].Remainingquantity;
 
+        let oldToBeDelivered = userProduct.ToBeDelivered
+        let oldDelivered = userProduct.Delivered
+
+        let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered - element2 : element2
+        let Delivered = oldDelivered ? oldDelivered + element2 : element2
 
         const userProduct = await Product.findOne({ name: element1 })
 
 
-        let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered: element2 } })
+
+
+        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { ToBeDelivered, Delivered } })
 
       }
 
