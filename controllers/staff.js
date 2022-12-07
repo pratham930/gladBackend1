@@ -53,8 +53,8 @@ class staffController {
         console.log(userProduct.quantity - element2, "80")
 
         let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity } })
-        console.log(userNewProduct, "85")
+
+          const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity,ToBeDelivered:element2 } })
       }
       const addAttachment = req.files['addAttachment'][0].filename
 
