@@ -49,6 +49,11 @@ const DepositeSchema = new mongoose.Schema(
     },
     // enterDescription: { type: String, required: true },
     addAttachment: { type: String },
+    status: {
+      type: String,
+      enum: ["Pending", "Active"],
+      default: "Pending"
+    },
     createdby: {
       type: Object,
     },

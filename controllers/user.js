@@ -352,7 +352,7 @@ class userController {
 
 
   static getStoreInvoice = async (req, res) => {
-    const invoice = await StoreInvoice.find({})
+    const invoice = await StoreInvoice.find({ status: "Active" })
     res.json(invoice)
   }
   static getStoreInvoiceById = async (req, res) => {
@@ -386,7 +386,7 @@ class userController {
   }
 
   static Deposite = async (req, res) => {
-    const deposite = await Deposite.find({})
+    const deposite = await Deposite.find({ status: "Active" })
     res.json(deposite)
   }
   static GetDepositeById = async (req, res) => {
@@ -395,6 +395,34 @@ class userController {
     const deposite = await Deposite.findOne({ _id })
     res.json(deposite)
   }
+
+  static updateAddDeposite = async (req, res) => {
+    const addAttachment = req.files['addAttachment'][0].filename
+    const { billNumber, DepositebillNumber, cash, credit } = req.body
+
+    try {
+      let lol = { ...req.body, createdby: req.user._id, addAttachment, status: "Active" }
+
+      const userProduct = await Invoice.findOne({ billNumber })
+
+      if (userProduct) {
+        console.log(userProduct.credit)
+
+        let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
+        const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
+        console.log(userNewProduct, 'deposite succesfull');
+      }
+      const ram = await Deposite.findOneAndUpdate({ billNumber: billNumber }, { $set: { status: "Active" } })
+      if (ram) {
+        res.send({ status: "success" })
+      }
+    } catch (err) {
+      res.status(400).send(err)
+    }
+    // console.log(deposite)
+
+  };
+
 
   static getStaff = async (req, res) => {
     try {

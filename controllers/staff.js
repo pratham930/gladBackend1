@@ -207,13 +207,13 @@ class staffController {
 
       const userProduct = await Invoice.findOne({ billNumber })
 
-      if (userProduct) {
-        console.log(userProduct.credit)
+      // if (userProduct) {
+      //   console.log(userProduct.credit)
 
-        let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
-        const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
-        console.log(userNewProduct, 'deposite succesfull');
-      }
+      //   let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
+      //   const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
+      //   console.log(userNewProduct, 'deposite succesfull');
+      // }
       const deposite = new Deposite(lol)
 
       await deposite.save()
@@ -224,6 +224,7 @@ class staffController {
     // console.log(deposite)
 
   };
+
 
 
   // static addDeposite = async (req, res) => {

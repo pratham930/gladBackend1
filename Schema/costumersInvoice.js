@@ -36,6 +36,16 @@ const InvoiceSchema = new mongoose.Schema({
 
     required: true,
   },
+  deliveryStatus: {
+    type: String,
+    enum: ["Delivered", "ToBeDelivered", "PartiallyDelivered"],
+    default: "ToBeDelivered"
+  },
+  assigned: {
+    type: String,
+    enum: ["Yes", "No"],
+    default: "Yes"
+  },
   addAttachment: { type: String },
   createdby: {
     type: String,
