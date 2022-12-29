@@ -10,8 +10,8 @@ const InvoiceSchema = new mongoose.Schema({
   },
   aadharNumber: {
     type: Number,
-    required: true,
-    unique: true,
+    required: true
+
   },
   products: [
     {

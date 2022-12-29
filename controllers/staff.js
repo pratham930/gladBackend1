@@ -54,8 +54,12 @@ class staffController {
         console.log(userProduct.quantity - element2, "80")
         console.log(userProduct.ToBeDelivered, "80")
         let oldToBeDelivered = userProduct.ToBeDelivered
+        let oldRemainingquantity = userProduct.Remainingquantity
+
         let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
-        let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
+        let newQuantity = oldRemainingquantity > 0 ? oldRemainingquantity - element2 : userProduct.quantity - element2
+
+        // let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
 
         const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
       }
@@ -95,12 +99,12 @@ class staffController {
         supplierName,
         dateOfExportation,
         location,
-        products,
+
 
         billNumber,
         totalAmount
       } = req.body
-      // var products = JSON.parse(req.body.products)
+      var products = JSON.parse(req.body.products)
       console.log(req.body, '101')
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
@@ -111,11 +115,16 @@ class staffController {
 
 
         const userProduct = await Product.findOne({ name: element1 })
+
         console.log(userProduct, 80)
         console.log(userProduct.quantity - element2, "80")
+        let oldToBeDelivered = userProduct.ToBeDelivered
+        let oldRemainingquantity = userProduct.Remainingquantity
 
-        let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity } })
+        let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
+        let newQuantity = oldRemainingquantity > 0 ? oldRemainingquantity - element2 : userProduct.quantity - element2
+        // let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
+        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
         // console.log(userNewProduct, "85")
       }
 

@@ -10,10 +10,10 @@ const router = express.Router()
 //   '/storeInvoice',
 //   upload.fields([{ name: 'addAttachment', maxcount: 1 }])
 // )
-// router.use(
-//   '/Miscellaneous',
-//   upload.fields([{ name: 'addAttachment', maxcount: 1 }])
-// )
+router.use(
+    '/updateCostumersInvoice',
+    upload.fields([{ name: 'addAttachment', maxcount: 1 }])
+)
 //post request
 // router.post('/costumersInvoice' ,authenticate,middile.seller, sellerController.costumersInvoice)
 
@@ -24,6 +24,8 @@ const router = express.Router()
 //get request
 
 router.get('/getAllInvioces', sellerController.getAllInvioces);
+//post request
+router.post('/updateCostumersInvoice', authenticate, sellerController.updateCostumersInvoice);
 
 
 

@@ -39,6 +39,7 @@ class sellerController {
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
+        const userProduct = await Product.findOne({ name: element1 })
 
         let oldToBeDelivered = userProduct.ToBeDelivered
         let oldDelivered = userProduct.Delivered
@@ -46,7 +47,6 @@ class sellerController {
         let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered - element2 : element2
         let Delivered = oldDelivered ? oldDelivered + element2 : element2
 
-        const userProduct = await Product.findOne({ name: element1 })
 
 
 
@@ -70,7 +70,7 @@ class sellerController {
           addAttachment,
           cash,
           credit,
-          createdby: req.user._id,
+          createdby: req.user._id
         }
         const invoice = new Invoice(lol)
         await invoice.save()
