@@ -11,10 +11,10 @@ const router = express.Router();
 //authentication
 router.use('/register', upload.fields([{ name: 'pimage', maxcount: 1 }]));
 router.use('/editProfilePic', upload.fields([{ name: 'pimage', maxcount: 1 }]));
-router.use(
-    '/updateAddDeposite',
-    upload.fields([{ name: 'addAttachment', maxcount: 1 }])
-)
+// router.use(
+//     '/updateAddDeposite',
+//     upload.fields([{ name: 'addAttachment', maxcount: 1 }])
+// )
 
 //post request
 router.post('/register', userController.register);

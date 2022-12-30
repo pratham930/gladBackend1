@@ -279,6 +279,11 @@ class staffController {
     const product = await Product.find({})
     res.send(product)
   };
+  static getAllProduct = async (req, res) => {
+    const product = await Product.find({})
+    res.send(product)
+  };
+
 
   static getcategory = async (req, res) => {
     const category = await Category.find({})
