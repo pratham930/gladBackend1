@@ -52,6 +52,9 @@ router.get('/getPofile', authenticate, staffController.getPofile);
 router.get('/getProduct', staffController.getProduct);
 router.get('/getLocation', staffController.getLocation);
 router.get('/getcategory', staffController.getcategory);
+router.get('/getAllProduct', staffController.getAllProduct);
+router.get('/getAllProductByLocation', staffController.getAllProductByLocation);
+
 
 
 export default router;

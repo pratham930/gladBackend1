@@ -106,6 +106,7 @@ class staffController {
       } = req.body
       var products = JSON.parse(req.body.products)
       console.log(req.body, '101')
+
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
@@ -279,11 +280,37 @@ class staffController {
     const product = await Product.find({})
     res.send(product)
   };
+
+
   static getAllProduct = async (req, res) => {
-    const product = await Product.find({})
+    const product = await Product.aggregate([
+      // Stage 1: Filter pizza order documents by pizza size
+      {
+        $match: { name: "aloo" }
+      },
+      // Stage 2: Group remaining documents by pizza name and calculate total quantity
+      {
+        $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+      }
+    ])
+    console.log(product, "first")
     res.send(product)
   };
 
+  static getAllProductByLocation = async (req, res) => {
+    const product = await Product.aggregate([
+      // Stage 1: Filter pizza order documents by pizza size
+      {
+        $match: { location: "Jabalpur" }
+      },
+      // Stage 2: Group remaining documents by pizza name and calculate total quantity
+      {
+        $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+      }
+    ])
+    console.log(product, "first")
+    res.send(product)
+  };
 
   static getcategory = async (req, res) => {
     const category = await Category.find({})
