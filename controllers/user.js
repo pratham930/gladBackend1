@@ -85,7 +85,7 @@ class userController {
   };
 
   static getMember = async (req, res) => {
-    const deposite = await NewUser.find({})
+    const deposite = await NewUser.find({}).populate("Invioces", ["cash", "credit", "createdAt"])
     res.json(deposite)
   }
 
@@ -115,6 +115,15 @@ class userController {
     console.log(product)
     res.json({ status: 'success' })
   }
+  static updateProductByLocation = async (req, res) => {
+    const { _id } = req.params
+    const { quantity, name } = req.body
+
+    const product = await Product.findByIdAndUpdate({ _id }, { name: name })
+    console.log(product)
+    res.json({ status: 'success' })
+  }
+
 
   static updateMemberByid = async (req, res) => {
     const { _id } = req.params
@@ -127,7 +136,7 @@ class userController {
 
   static addInvoceToMemberId = async (req, res) => {
     try {
-      console.log(req.body.Invoces)
+      console.log(req.body.Invioces)
       const { _id } = req.params
       // let id = '63335fbcfa6ae82c08546c2c'
       const userLogin = await NewUser.findOne({ _id })
@@ -135,8 +144,8 @@ class userController {
 
 
         const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
-          $push: { Invoces: req.body.Invoces },
-        }).populate('Invoces')
+          $push: { Invioces: req.body.Invioces },
+        }).populate('Invioces')
         console.log(memberwithinvoces)
         res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
       }
@@ -145,6 +154,7 @@ class userController {
       return res.status(422).json({ error: 'not found data' })
     }
   }
+
 
   // static getMemberInvocesById = async (req, res) => {
   //   const { _id } = req.params
