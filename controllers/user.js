@@ -91,7 +91,7 @@ class userController {
 
   static getMemberByid = async (req, res) => {
     const { _id } = req.params
-    const product = await NewUser.findOne({ _id }).populate('Invoces')
+    const product = await NewUser.findOne({ _id }).populate("Invioces", ["cash", "credit", "createdAt"])
     res.json(product)
   }
 
@@ -141,6 +141,24 @@ class userController {
       // let id = '63335fbcfa6ae82c08546c2c'
       const userLogin = await NewUser.findOne({ _id })
       if (userLogin) {
+
+        console.log(userLogin.Invioces)
+        let products = userLogin.Invioces
+        for (let index = 0; index < products.length; index++) {
+          const element1 = products[index]._id;
+
+
+
+          // const userProduct = await Product.findOne({ _id: element1 })
+          console.log(element1, "element1")
+
+          const userNewProduct = await Invoice.findOneAndUpdate({ _id: element1 }, { $set: { assigned: "Yes" } })
+          console.log(userNewProduct, "85")
+        }
+
+
+
+
 
 
         const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
