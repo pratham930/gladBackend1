@@ -8,6 +8,7 @@ import Category from "../Schema/Category.js";
 import Location from "../Schema/Location.js";
 import Miscellaneous from '../Schema/Miscellaneous.js';
 import Deposite from '../Schema/deposite.js';
+import total from '../Schema/total.js';
 
 
 // process.env.SECRET_KEY
@@ -285,16 +286,32 @@ class staffController {
   static getAllProduct = async (req, res) => {
     const product = await Product.aggregate([
       // Stage 1: Filter pizza order documents by pizza size
-      {
-        $match: { name: "aloo" }
-      },
+      // {
+      //   $match: { name: "aloo" }
+      // },
       // Stage 2: Group remaining documents by pizza name and calculate total quantity
       {
         $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
       }
     ])
     console.log(product, "first")
-    res.send(product)
+
+    const Newtotal = product.map((e) => {
+      return {
+        name: e._id,
+        quantity: e.totalQuantity
+      }
+    })
+    console.log(Newtotal);
+    const Oldtotal = await total.find()
+    const all = [...Newtotal, ...Oldtotal]
+    const letters = [...new Set(all)];
+    console.log('object', letters);
+    const deposite = await total.insertMany(letters)
+
+    // const raju = await deposite.save()
+    console.log(deposite)
+    res.send(deposite)
   };
 
   static getAllProductByLocation = async (req, res) => {

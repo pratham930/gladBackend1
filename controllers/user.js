@@ -174,12 +174,12 @@ class userController {
   }
 
 
-  // static getMemberInvocesById = async (req, res) => {
-  //   const { _id } = req.params
-  //   console.log(_id)
-  //   const deposite = await NewUser.findOne({ _id }).populate('Invoice')
-  //   res.json(deposite)
-  // }
+  static getMemberInvocesById = async (req, res) => {
+    const { _id } = req.params
+    console.log(_id)
+    const deposite = await NewUser.findOne({ _id }).populate('Invioces')
+    res.json(deposite)
+  }
 
 
 
