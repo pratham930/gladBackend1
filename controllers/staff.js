@@ -314,20 +314,23 @@ class staffController {
     res.send(deposite)
   };
 
+
   static getAllProductByLocation = async (req, res) => {
     const product = await Product.aggregate([
       // Stage 1: Filter pizza order documents by pizza size
       {
-        $match: { location: "Jabalpur" }
+        $match: { name: "banana" }
       },
       // Stage 2: Group remaining documents by pizza name and calculate total quantity
       {
-        $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+        $group: { _id: "$location", totalQuantity: { $sum: "$quantity" } }
       }
     ])
     console.log(product, "first")
     res.send(product)
   };
+
+
 
   static getcategory = async (req, res) => {
     const category = await Category.find({})
