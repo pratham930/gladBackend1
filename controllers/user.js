@@ -136,37 +136,25 @@ class userController {
 
   static addInvoceToMemberId = async (req, res) => {
     try {
-      console.log(req.body.Invioces)
+      const { Invioces } = req.body
+      console.log(Invioces)
+
       const { _id } = req.params
-      // let id = '63335fbcfa6ae82c08546c2c'
-      const userLogin = await NewUser.findOne({ _id })
-      if (userLogin) {
+      console.log(_id, "_id")
 
-        console.log(userLogin.Invioces)
-        let products = userLogin.Invioces
-        for (let index = 0; index < products.length; index++) {
-          const element1 = products[index]._id;
+      for (let index = 0; index < Invioces.length; index++) {
+        const element1 = Invioces[index];
 
-
-
-          // const userProduct = await Product.findOne({ _id: element1 })
-          console.log(element1, "element1")
-
-          const userNewProduct = await Invoice.findOneAndUpdate({ _id: element1 }, { $set: { assigned: "Yes" } })
-          console.log(userNewProduct, "85")
-        }
-
-
-
-
-
-
-        const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
-          $push: { Invioces: req.body.Invioces },
-        }).populate('Invioces')
-        console.log(memberwithinvoces)
-        res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
+        const userNewProduct = await Invoice.findOneAndUpdate({ _id: element1 }, { $set: { assigned: "Yes" } })
+        console.log(userNewProduct, "85")
       }
+
+      const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
+        $push: { Invioces: req.body.Invioces },
+      }).populate('Invioces')
+      console.log(memberwithinvoces)
+      res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
+
     } catch (error) {
       console.log(error)
       return res.status(422).json({ error: 'not found data' })

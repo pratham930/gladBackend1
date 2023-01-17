@@ -330,6 +330,24 @@ class staffController {
     res.send(product)
   };
 
+  //   if(memberwithinvoces){
+  //     let products = userLogin.Invioces
+
+  //  for (let index = 0; index < products.length; index++) {
+  //       const element1 = products[index]._id;
+
+
+
+  //       // const userProduct = await Product.findOne({ _id: element1 })
+  //       console.log(element1, "element1")
+
+  //       const userNewProduct = await Invoice.findOneAndUpdate({ _id: element1 }, { $set: { assigned: "Yes" } })
+  //       console.log(userNewProduct, "85")
+  //     }
+  //   }
+
+
+  //     res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
 
 
   static getcategory = async (req, res) => {
