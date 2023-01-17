@@ -12,6 +12,7 @@ import Deposite from '../Schema/deposite.js';
 import NewUser from "../Schema/NewAccount.js"
 import Expances from '../Schema/expances.js';
 import StoreInvoice from "../Schema/storeInvoice.js"
+import AllProduct from '../Schema/ProductTobe.js';
 // import Miscellaneous from '../Schema/Miscellaneous.js';
 
 // process.env.SECRET_KEY
@@ -297,18 +298,64 @@ class userController {
 
 
 
-
-
-
   static addProduct = async (req, res) => {
-    const product = new Product(req.body)
+    const { name, quantity, location } = req.body
     try {
-      await product.save()
-      res.status(201).send(product)
+      const preAllProduct = await AllProduct.findOne({ name })
+      const preProduct = await Product.findOne({ name })
+
+      // console.log(preProduct, "304")
+
+
+      if (preProduct.location !== location && preAllProduct) {
+
+        // const allProduct = new AllProduct(req.body)
+
+        // await allProduct.save()
+
+        // if (allProduct) {
+
+
+        const product = new Product(req.body)
+
+        await product.save()
+        // res.status(201).send(product)
+        // }
+
+        if (product) {
+          const newQuantity = preAllProduct.quantity + quantity
+
+          const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
+          res.status(201).send(product)
+
+        }
+
+
+      }
+
+      if (!preAllProduct && !preProduct) {
+        const allProduct = new AllProduct(req.body)
+        await allProduct.save()
+        res.status(201).send(allProduct)
+
+      }
+      else {
+        const newQuantity = preProduct.quantity + quantity
+        const newAllQuantity = preAllProduct.quantity + quantity
+        const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
+        const updateProduct = await Product.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
+        res.status(201).send(updateProduct)
+
+      }
+
+      //  const  allProduct = new AllProduct({name,quantity})
+
+
     } catch (e) {
       res.status(400).send(e)
     }
   };
+
 
   static addCategory = async (req, res) => {
     const category = new Category(req.body)

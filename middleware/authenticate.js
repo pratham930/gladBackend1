@@ -49,10 +49,10 @@ var authenticate = async (req, res, next) => {
       // console.log(process.env.SECRET_KEY)
       // console.log(token)
       const { userID } = jwt.verify(token, process.env.SECRET_KEY)
-console.log(userID)
+      // console.log(userID)
       // Get User from Token
       req.user = await Registration2.findById(userID)
-      console.log(req.user)
+      // console.log(req.user)
       next()
     } catch (error) {
       console.log(error)
