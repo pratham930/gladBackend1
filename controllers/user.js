@@ -302,59 +302,56 @@ class userController {
     const { name, quantity, location } = req.body
     try {
       const preAllProduct = await AllProduct.findOne({ name })
-      const preProduct = await Product.findOne({ name })
+      // const preProduct = await Product.findOne({ name })
 
-      // console.log(preProduct, "304")
+      const raju = await Product.find({ $and: [{ name }, { location }] })
 
-
-      if (preProduct.location !== location && preAllProduct) {
-
+      const preProduct = raju[0]
+      const { _id } = preProduct
+      console.log(raju, "308")
+      if (!preProduct && preAllProduct) {
         // const allProduct = new AllProduct(req.body)
-
         // await allProduct.save()
-
         // if (allProduct) {
-
-
         const product = new Product(req.body)
-
         await product.save()
         // res.status(201).send(product)
         // }
-
         if (product) {
           const newQuantity = preAllProduct.quantity + quantity
 
           const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
-          res.status(201).send(product)
+          // res.status(201).send(updateAllProduct)
+          console.log(updateAllProduct, "320")
 
         }
-
-
       }
 
       if (!preAllProduct && !preProduct) {
         const allProduct = new AllProduct(req.body)
         await allProduct.save()
-        res.status(201).send(allProduct)
+        const product = new Product(req.body)
+        await product.save()
+        console.log(allProduct, "330")
+        // res.status(201).send(allProduct)
 
       }
       else {
         const newQuantity = preProduct.quantity + quantity
         const newAllQuantity = preAllProduct.quantity + quantity
         const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
-        const updateProduct = await Product.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
+        // if (preProduct.location == location) {
+        const updateProduct = await Product.findOneAndUpdate({ _id }, { $set: { quantity: newQuantity } })
+        console.log(updateProduct, "340")
         res.status(201).send(updateProduct)
-
+        // }
       }
-
       //  const  allProduct = new AllProduct({name,quantity})
-
-
     } catch (e) {
       res.status(400).send(e)
     }
   };
+
 
 
   static addCategory = async (req, res) => {

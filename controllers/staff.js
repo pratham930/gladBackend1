@@ -9,6 +9,8 @@ import Location from "../Schema/Location.js";
 import Miscellaneous from '../Schema/Miscellaneous.js';
 import Deposite from '../Schema/deposite.js';
 import total from '../Schema/total.js';
+import AllProduct from '../Schema/ProductTobe.js';
+
 
 
 // process.env.SECRET_KEY
@@ -50,7 +52,7 @@ class staffController {
         console.log(element2, "75")
 
 
-        const userProduct = await Product.findOne({ name: element1 })
+        const userProduct = await AllProduct.findOne({ name: element1 })
         console.log(userProduct, 80)
         console.log(userProduct.quantity - element2, "80")
         console.log(userProduct.ToBeDelivered, "80")
@@ -62,7 +64,7 @@ class staffController {
 
         // let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
 
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
+        const userNewProduct = await AllProduct.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
       }
       const addAttachment = req.files['addAttachment'][0].filename
 
