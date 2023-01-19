@@ -10,7 +10,8 @@ import staffRoute from './routes/staff.js'
 import sellerRoute from './routes/seller.js'
 
 
-const port = process.env.PORT || '8001'
+const port = process.env.PORT || '8001';
+
 const DATABASE_URL =
   'mongodb+srv://glad:lookman17@glad.dkowsha.mongodb.net/?retryWrites=true&w=majority'
 // mongodb+srv://pratham:lookman17@cluster1.vuxzs.mongodb.net/?retryWrites=true&w=majority
@@ -46,6 +47,7 @@ io.on("connection", (socket) => {
   // SOCKET CONNECTION ESTABLISHED
   console.log("Connected to socket.io with id --> ", socket.id);
   socket.emit("connected");
+
 
 
   socket.on("setup", (userData) => {
