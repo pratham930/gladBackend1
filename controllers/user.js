@@ -295,29 +295,52 @@ class userController {
     }
   }
 
-
+  // static addProduct = async (req, res) => {
+  //   const product = new Product(req.body)
+  //   try {
+  //     await product.save()
+  //     res.status(201).send(product)
+  //   } catch (e) {
+  //     res.status(400).send(e)
+  //   }
+  // };
 
 
   static addProduct = async (req, res) => {
     const { name, quantity, location } = req.body
     try {
       const preAllProduct = await AllProduct.findOne({ name })
+      console.log(preAllProduct, "preAllProduct")
+      // res.send(preAllProduct)
       // const preProduct = await Product.findOne({ name })
 
       const raju = await Product.find({ $and: [{ name }, { location }] })
 
-      const preProduct = raju[0]
-      const { _id } = preProduct
+      if (preAllProduct === null && raju.length === 0) {
+        const allProduct = new AllProduct(req.body)
+        await allProduct.save()
+        const product = new Product(req.body)
+        await product.save()
+        console.log(allProduct, "330")
+
+        // res.send({ status: "success" })
+
+      }
+
       console.log(raju, "308")
-      if (!preProduct && preAllProduct) {
+
+      const preProduct = raju[0]
+      if (raju.length === 0 && preAllProduct !== null) {
         // const allProduct = new AllProduct(req.body)
         // await allProduct.save()
         // if (allProduct) {
         const product = new Product(req.body)
         await product.save()
+        console.log(product, "pro")
         // res.status(201).send(product)
         // }
         if (product) {
+
           const newQuantity = preAllProduct.quantity + quantity
 
           const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
@@ -327,15 +350,7 @@ class userController {
         }
       }
 
-      if (!preAllProduct && !preProduct) {
-        const allProduct = new AllProduct(req.body)
-        await allProduct.save()
-        const product = new Product(req.body)
-        await product.save()
-        console.log(allProduct, "330")
-        // res.status(201).send(allProduct)
 
-      }
       else {
         const newQuantity = preProduct.quantity + quantity
         const newAllQuantity = preAllProduct.quantity + quantity
@@ -365,6 +380,7 @@ class userController {
     console.log(req.body)
     // res.send(req.body)
   }
+
 
   static addLoaction = async (req, res) => {
     const location = new Location(req.body)

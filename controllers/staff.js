@@ -25,6 +25,72 @@ class staffController {
 
 
 
+
+
+
+
+  //   static costumersInvoice = async (req, res) => {
+
+  //     try {
+  //       const {
+  //         name,
+  //         aadharNumber,
+  //         billNumber,
+  //         totalAmount,
+  //         cash,
+  //         credit
+  //       } = req.body
+
+  //         var products = JSON.parse(req.body.products)
+
+  //       for (let index = 0; index < products.length; index++) {
+  //         const element1 = products[index].selectProduct;
+  //         const element2 = Number(products[index].quantity);
+
+
+
+
+  //         const userProduct = await Product.findOne({ name: element1 })
+
+  //   let oldToBeDelivered = userProduct.ToBeDelivered
+  //         let oldRemainingquantity = userProduct.Remainingquantity
+
+  //         let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
+  //         let newQuantity = oldRemainingquantity > 0 ? oldRemainingquantity - element2 : userProduct.quantity - element2
+  //         // let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
+  //         const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
+  //         // console.log(userNewProduct, "85")
+  //       }
+
+
+  //       const addAttachment = req.files['addAttachment'][0].filename
+  //  if (!totalAmount || !name || !billNumber) {
+  //         res.send({ status: 'failed', message: 'All Fields are Required' })
+  //       }
+  // else{
+  //       const lol = {
+  //         name,
+  //         aadharNumber,
+  //         products,
+  //         billNumber,
+  //         totalAmount,
+  //         addAttachment,
+  //         cash,
+  //         credit,
+  //         createdby: req.user._id,
+  //       }
+  //       const invoice = new Invoice(lol)
+  //       await invoice.save()
+  //       console.log(invoice)
+  //       res.json({ status: 'success', message: 'costumersInvoice saved' })}
+
+  //     } catch (error) {
+  //       console.log(error)
+  //       return res.status(422).send(error)
+  //     }
+  //   }
+
+
   static costumersInvoice = async (req, res) => {
     try {
       const {
@@ -102,8 +168,6 @@ class staffController {
         supplierName,
         dateOfExportation,
         location,
-
-
         billNumber,
         totalAmount
       } = req.body
