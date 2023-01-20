@@ -111,7 +111,7 @@ class staffController {
 
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
-        const element2 = products[index].quantity;
+        const element2 = Number(products[index].quantity);
 
 
         console.log(element1, "74")
@@ -176,23 +176,23 @@ class staffController {
 
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
-        const element2 = products[index].quantity;
+        const element2 = Number(products[index].quantity);
         console.log(element1, "74")
         console.log(element2, "75")
 
 
 
-        const userProduct = await Product.findOne({ name: element1 })
+        const userProduct = await AllProduct.findOne({ name: element1 })
 
         console.log(userProduct, 80)
         console.log(userProduct.quantity - element2, "80")
-        let oldToBeDelivered = userProduct.ToBeDelivered
+        // let oldToBeDelivered = userProduct.ToBeDelivered
         let oldRemainingquantity = userProduct.Remainingquantity
 
-        let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
-        let newQuantity = oldRemainingquantity > 0 ? oldRemainingquantity - element2 : userProduct.quantity - element2
-        // let newQuantity = userProduct.quantity > 0 ? userProduct.quantity - element2 : 0
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newQuantity, ToBeDelivered } })
+        // let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered + element2 : element2
+        let newRemainingQuantity = oldRemainingquantity + element2
+        let newQuantity = userProduct.quantity + element2
+        const userNewProduct = await AllProduct.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newRemainingQuantity, quantity: newQuantity } })
         // console.log(userNewProduct, "85")
       }
 
@@ -344,7 +344,7 @@ class staffController {
   };
 
   static getProduct = async (req, res) => {
-    const product = await Product.find({})
+    const product = await AllProduct.find({})
     res.send(product)
   };
 

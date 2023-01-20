@@ -57,3 +57,57 @@ io.on("connection", (socket) => {
   })
 
 })
+
+
+
+// const array1 = [
+//   {
+//     id: 1,
+//     name: "mango",
+//     age: 25
+//   },
+//   {
+//     id: 2,
+//     name: "apple",
+//     age: 25
+//   },
+//   {
+//     id: 3,
+//     name: "pine",
+//     age: 25
+//   },
+// ]
+
+// const array2 = [
+//   {
+//     id: 1,
+//     name: "mango",
+//     age: 5
+//   },
+//   {
+//     id: 2,
+//     name: "apple",
+//     age: 2
+//   },
+//   {
+//     id: 3,
+//     name: "pine",
+//     age: 20
+//   },
+// ]
+
+// const sita = () => {
+//   let ramu = []
+//   for (let index = 0; index < array1.length; index++) {
+//     const element1 = array1[index].name;
+//     const element2 = array1[index].age;
+//     const element3 = array1[index].id;
+//     if (array2[index].name == element1) {
+//       console.log(index)
+//       const Nwequantity = array2[index].age + element2
+//       ramu.push({ age: Nwequantity, element3 })
+//     }
+//   }
+//   return ramu
+// }
+// console.log(sita(), "message")

@@ -349,13 +349,12 @@ class userController {
 
         }
       }
-
-
       else {
         const newQuantity = preProduct.quantity + quantity
         const newAllQuantity = preAllProduct.quantity + quantity
         const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
         // if (preProduct.location == location) {
+        const { _id } = preProduct
         const updateProduct = await Product.findOneAndUpdate({ _id }, { $set: { quantity: newQuantity } })
         console.log(updateProduct, "340")
         res.status(201).send(updateProduct)
@@ -366,7 +365,6 @@ class userController {
       res.status(400).send(e)
     }
   };
-
 
 
   static addCategory = async (req, res) => {
@@ -604,6 +602,87 @@ class userController {
       return res.status(422).json({ error: "not found data" })
     }
   }
+
+
+
+  static UpdateStorePurchage = async (req, res) => {
+
+    try {
+      const { products, location } = req.body
+      // console.log(req.body, "272")
+      const productLocation = await Product.find({ location })
+      console.log(productLocation, 'productLocation')
+
+
+      const sita = () => {
+        let ramu = []
+        for (let index = 0; index < productLocation.length; index++) {
+          const element1 = productLocation[index].name;
+          const element2 = productLocation[index].quantity;
+          const element3 = productLocation[index]._id;
+          // const selectProduct = products[index]?.selectProduct
+
+          const rau = products.map(({ selectProduct, quantity }) => {
+            if (selectProduct == element1) {
+              return { name: selectProduct, _id: element3, quantity: quantity + element2 }
+            }
+            else {
+              return { _id: element3, name: element1 }
+            }
+          })
+          console.log(rau, 'rau');
+
+          // if (selectProduct === element1) {
+          //   console.log(index)
+          //   const Nwequantity = products[index].quantity + element2
+          //   ramu.push({ quantity: Nwequantity, _id: element3 })
+          // }
+
+
+        }
+        return ramu
+      }
+      // res.send(sita())
+      // console.log(sita(), "sita")
+
+
+      // if (sita()) {
+
+      //   for (let index = 0; index < sita().length; index++) {
+
+      //     const element = sita()[index]._id;
+      //     const element2 = sita()[index].quantity;
+      //     // console.log(element, element2);
+      //     const result = await Product.findByIdAndUpdate(element, { $set: { quantity: element2 } })
+      //   }
+      // }
+      // else {
+      //   res.send({ "status": "failed", "message": "All Fields are Required" })
+      // }
+    }
+    catch (error) {
+      console.log(error)
+      return res.status(422).json({ error: "not found data" })
+    }
+  }
+
+
+
+
+
+  // const sita = () => {
+  //   let ramu = []
+  //   for (let index = 0; index < array1.length; index++) {
+  //     const element1 = array1[index].name;
+  //     const element2 = array1[index].age;
+  //     const element3 = array1[index].id;
+  //     if (array2[index].name == element1) {
+  //       const Nwequantity = array2[index].age + element2
+  //       ramu.push({ age: Nwequantity, element3 })
+  //     }
+  //   }
+  //   return ramu
+  // }
 
 
 

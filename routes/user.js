@@ -86,6 +86,7 @@ router.patch('/updateMemberByid/:_id', userController.updateMemberByid);
 
 router.patch('/updateProductByid/:_id', userController.updateProductByid);
 router.patch('/updateAddDeposite', authenticate, userController.updateAddDeposite);
+router.patch('/UpdateStorePurchage', authenticate, userController.UpdateStorePurchage);
 
 
 //delete request
