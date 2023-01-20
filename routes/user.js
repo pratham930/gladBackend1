@@ -57,6 +57,7 @@ router.get('/GetMiscellaneousById/:_id', authenticate, middile.admin, userContro
 router.get('/getexpancesById/:_id', authenticate, middile.admin, userController.getexpancesById);
 router.get('/getStoreInvoiceById/:_id', authenticate, middile.admin, userController.getStoreInvoiceById);
 router.get('/GetcostumersInvoiceById/:_id', authenticate, middile.admin, userController.GetcostumersInvoiceById);
+router.get('/DailyDeliveryStatus', authenticate, middile.admin, userController.DailyDeliveryStatus);
 
 
 

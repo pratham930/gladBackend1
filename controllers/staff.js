@@ -268,24 +268,25 @@ class staffController {
 
   static addDeposite = async (req, res) => {
     const addAttachment = req.files['addAttachment'][0].filename
-    const { billNumber, DepositebillNumber, cash, credit } = req.body
+
 
     try {
-      let lol = { ...req.body, createdby: req.user._id, addAttachment }
 
       const userProduct = await Invoice.findOne({ billNumber })
 
-      // if (userProduct) {
-      //   console.log(userProduct.credit)
+      if (userProduct) {
+        let lol = { ...req.body, createdby: req.user._id, addAttachment }
 
-      //   let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
-      //   const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
-      //   console.log(userNewProduct, 'deposite succesfull');
-      // }
-      const deposite = new Deposite(lol)
+        const deposite = new Deposite(lol)
 
-      await deposite.save()
-      res.send({ status: "success" })
+        await deposite.save()
+        res.send({ status: "success" })
+      }
+      else {
+        res.send({ message: "invalide billNumber" })
+      }
+
+
     } catch (err) {
       res.status(400).send(err)
     }

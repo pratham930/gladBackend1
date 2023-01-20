@@ -60,54 +60,60 @@ io.on("connection", (socket) => {
 
 
 
-// const array1 = [
-//   {
-//     id: 1,
-//     name: "mango",
-//     age: 25
-//   },
-//   {
-//     id: 2,
-//     name: "apple",
-//     age: 25
-//   },
-//   {
-//     id: 3,
-//     name: "pine",
-//     age: 25
-//   },
-// ]
+const array1 = [
+  {
+    id: 1,
+    name: "mango",
+    quantity: 25
+  },
+  {
+    id: 2,
+    name: "apple",
+    quantity: 25
+  },
+  {
+    id: 3,
+    name: "pine",
+    quantity: 25
+  },
+]
 
-// const array2 = [
-//   {
-//     id: 1,
-//     name: "mango",
-//     age: 5
-//   },
-//   {
-//     id: 2,
-//     name: "apple",
-//     age: 2
-//   },
-//   {
-//     id: 3,
-//     name: "pine",
-//     age: 20
-//   },
-// ]
+const array2 = [
+  {
+    id: 1,
+    name: "mango",
+    quantity: 5
+  },
+  {
+    id: 2,
+    name: "pine",
+    quantity: 2
+  },
+  {
+    id: 3,
+    name: "apple",
+    quantity: 20
+  },
+]
 
-// const sita = () => {
-//   let ramu = []
-//   for (let index = 0; index < array1.length; index++) {
-//     const element1 = array1[index].name;
-//     const element2 = array1[index].age;
-//     const element3 = array1[index].id;
-//     if (array2[index].name == element1) {
-//       console.log(index)
-//       const Nwequantity = array2[index].age + element2
-//       ramu.push({ age: Nwequantity, element3 })
-//     }
-//   }
-//   return ramu
-// }
+const sita = () => {
+  let ramu = []
+  for (let index = 0; index < array1.length; index++) {
+    const element1 = array1[index].name;
+    const element2 = array1[index].quantity;
+    const element3 = array1[index].id;
+    const raja = array2.map((e, i) => {
+      if (element1 == e.name) {
+        const u = { name: e.name, quantity: e.quantity + element2, id: e.id }
+        ramu.push(u)
+      }
+      else {
+        return { ...ramu, e }
+      }
+    }
+    )
+
+  }
+  return ramu
+}
 // console.log(sita(), "message")

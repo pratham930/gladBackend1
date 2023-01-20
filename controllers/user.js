@@ -116,6 +116,7 @@ class userController {
     console.log(product)
     res.json({ status: 'success' })
   }
+
   static updateProductByLocation = async (req, res) => {
     const { _id } = req.params
     const { quantity, name } = req.body
@@ -172,8 +173,6 @@ class userController {
 
 
 
-
-
   static RecentaddedProduct = async (req, res) => {
 
     try {
@@ -189,6 +188,31 @@ class userController {
     }
   }
 
+
+  static DailyDeliveryStatus = async (req, res) => {
+
+    try {
+
+
+      const ram = AllProduct.aggregate([
+
+        {
+          $match: { "createdAt": { $lt: new Date(), $gt: new Date(new Date().getTime() - (24 * 60 * 60 * 1000)) } }
+        },
+        // Stage 2: Group remaining documents by pizza name and calculate total quantity
+        {
+          $group: { _id: "$name", totalToBeDelivered: { $sum: "$ToBeDelivered" } }
+        }
+      ])
+
+      if (ram) {
+        res.send(ram)
+      }
+    }
+    catch (error) {
+      console.log(error, { message: "items not added" })
+    }
+  }
 
 
 
@@ -479,19 +503,17 @@ class userController {
 
       console.log(req.body)
 
-      // if (userProduct) {
       //   console.log(userProduct.credit)
-      const userProduct = Invoice.findOne({ billNumber: billNumber })
-      let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
-      const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
+      // const userProduct = Invoice.findOne({ billNumber: billNumber })
+      // let NewCredit = userProduct.credit >= cash ? userProduct.credit - cash : 0
+      // const userNewProduct = await Invoice.findOneAndUpdate({ billNumber: billNumber }, { $set: { credit: NewCredit } })
+      const userNewProduct = await Invoice.updateOne({ billNumber: billNumber }, { $inc: { credit: -Number(cash) } })
       console.log(userNewProduct, 'deposite succesfull');
       if (userNewProduct) {
         const ram = await Deposite.findOneAndUpdate({ billNumber: billNumber }, { $set: { status: "Active" } })
         res.send({ status: "success", message: "bill updated" })
       }
-      // if (ram) {
-      //   res.send({ status: "success" })
-      // }
+
     } catch (err) {
       res.status(400).send(err)
     }
@@ -609,10 +631,27 @@ class userController {
 
     try {
       const { products, location } = req.body
-      // console.log(req.body, "272")
-      const productLocation = await Product.find({ location })
-      console.log(productLocation, 'productLocation')
 
+      const productLocation = await Product.find({ location })
+      // console.log(productLocation, 'productLocation')
+
+
+      for (let index = 0; index < products.length; index++) {
+        const element1 = products[index].selectProduct;
+        const element2 = products[index].quantity;
+
+        const userProduct = await AllProduct.findOne({ name: element1 })
+        console.log(userProduct, 80)
+        console.log(userProduct.quantity - element2, "80")
+        // console.log(userProduct.ToBeDelivered, "80")
+        let olQuantity = userProduct.quantity
+        let oldRemainingquantity = userProduct.Remainingquantity
+
+        let newQuantity = olQuantity + element2
+        let newRemainingquantity = oldRemainingquantity ? oldRemainingquantity + element2 : userProduct.quantity + element2
+
+        const userNewProduct = await AllProduct.findOneAndUpdate({ name: element1 }, { $set: { Remainingquantity: newRemainingquantity, quantity: newQuantity } })
+      }
 
       const sita = () => {
         let ramu = []
@@ -620,45 +659,34 @@ class userController {
           const element1 = productLocation[index].name;
           const element2 = productLocation[index].quantity;
           const element3 = productLocation[index]._id;
-          // const selectProduct = products[index]?.selectProduct
-
-          const rau = products.map(({ selectProduct, quantity }) => {
-            if (selectProduct == element1) {
-              return { name: selectProduct, _id: element3, quantity: quantity + element2 }
+          const raja = products.map((e, i) => {
+            if (element1 === e.selectProduct) {
+              const u = { name: e.selectProduct, quantity: e.quantity + element2, _id: element3 }
+              ramu.push(u)
             }
             else {
-              return { _id: element3, name: element1 }
+              return { ...ramu, e }
             }
-          })
-          console.log(rau, 'rau');
-
-          // if (selectProduct === element1) {
-          //   console.log(index)
-          //   const Nwequantity = products[index].quantity + element2
-          //   ramu.push({ quantity: Nwequantity, _id: element3 })
-          // }
-
+          }
+          )
 
         }
         return ramu
       }
-      // res.send(sita())
-      // console.log(sita(), "sita")
+      console.log(sita(), "message")
 
+      for (let index = 0; index < sita().length; index++) {
+        const element = sita()[index]._id;
+        const newQuantity = sita()[index].quantity;
 
-      // if (sita()) {
+        await Product.findByIdAndUpdate(element, { $set: { quantity: newQuantity } })
+        // res.send({ "status": "success", "message": "location vice products  updated succesfully" })
+        if (sita().length - 1 == index) {
+          res.send({ "status": "success", "message": "location vice products  updated succesfully" })
 
-      //   for (let index = 0; index < sita().length; index++) {
+        }
+      }
 
-      //     const element = sita()[index]._id;
-      //     const element2 = sita()[index].quantity;
-      //     // console.log(element, element2);
-      //     const result = await Product.findByIdAndUpdate(element, { $set: { quantity: element2 } })
-      //   }
-      // }
-      // else {
-      //   res.send({ "status": "failed", "message": "All Fields are Required" })
-      // }
     }
     catch (error) {
       console.log(error)
@@ -667,22 +695,6 @@ class userController {
   }
 
 
-
-
-
-  // const sita = () => {
-  //   let ramu = []
-  //   for (let index = 0; index < array1.length; index++) {
-  //     const element1 = array1[index].name;
-  //     const element2 = array1[index].age;
-  //     const element3 = array1[index].id;
-  //     if (array2[index].name == element1) {
-  //       const Nwequantity = array2[index].age + element2
-  //       ramu.push({ age: Nwequantity, element3 })
-  //     }
-  //   }
-  //   return ramu
-  // }
 
 
 

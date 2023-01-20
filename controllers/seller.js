@@ -7,6 +7,7 @@ import Invoice from '../Schema/costumersInvoice.js'
 import Miscellaneous from '../Schema/Miscellaneous.js';
 import Deposite from '../Schema/deposite.js';
 import StoreInvoice from '../Schema/storeInvoice.js';
+import AllProduct from "../Schema/ProductTobe.js";
 // import Registration2 from "../Schema/Registration2.js";
 
 
@@ -39,20 +40,47 @@ class sellerController {
       for (let index = 0; index < products.length; index++) {
         const element1 = products[index].selectProduct;
         const element2 = products[index].quantity;
-        const userProduct = await Product.findOne({ name: element1 })
+        const userProduct = await AllProduct.findOne({ name: element1 })
 
         let oldToBeDelivered = userProduct.ToBeDelivered
         let oldDelivered = userProduct.Delivered
-
         let ToBeDelivered = oldToBeDelivered ? oldToBeDelivered - element2 : element2
         let Delivered = oldDelivered ? oldDelivered + element2 : element2
 
+        const userNewProduct = await AllProduct.findOneAndUpdate({ name: element1 }, { $set: { ToBeDelivered, Delivered } })
 
+      }
+      const sita = () => {
+        let ramu = []
+        for (let index = 0; index < productLocation.length; index++) {
+          const element1 = productLocation[index].name;
+          const element2 = productLocation[index].quantity;
+          const element3 = productLocation[index]._id;
+          const raja = products.map((e, i) => {
+            if (element1 === e.selectProduct) {
+              const u = { name: e.selectProduct, quantity: e.quantity + element2, _id: element3 }
+              ramu.push(u)
+            }
+            else {
+              return { ...ramu, e }
+            }
+          }
+          )
 
+        }
+        return ramu
+      }
+      console.log(sita(), "message")
 
+      for (let index = 0; index < sita().length; index++) {
+        const element = sita()[index]._id;
+        const newQuantity = sita()[index].quantity;
 
-        const userNewProduct = await Product.findOneAndUpdate({ name: element1 }, { $set: { ToBeDelivered, Delivered } })
+        await Product.findByIdAndUpdate(element, { $set: { quantity: newQuantity } })
+        if (sita().length - 1 == index) {
+          res.send({ "status": "success", "message": "location vice products  updated succesfully" })
 
+        }
       }
 
 
