@@ -31,6 +31,17 @@ const StoreSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["Pending", "Active"],
+      default: "Pending"
+    },
+    assigned: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: "No"
+    },
+
     totalAmount: {
       type: Number,
       required: true,

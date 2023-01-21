@@ -116,4 +116,10 @@ const sita = () => {
   }
   return ramu
 }
-// console.log(sita(), "message")
+
+const hana = ["123", "547", "45"]
+// const hana = [123, 547, 45]
+const rama = new Set(hana)
+
+// console.log(rama);
+// console.log(Object.assign({ ...hana })) 

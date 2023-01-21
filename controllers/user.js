@@ -330,65 +330,67 @@ class userController {
   // };
 
 
-  static addProduct = async (req, res) => {
-    const { name, quantity, location } = req.body
-    try {
-      const preAllProduct = await AllProduct.findOne({ name })
-      console.log(preAllProduct, "preAllProduct")
-      // res.send(preAllProduct)
-      // const preProduct = await Product.findOne({ name })
+  // static addProduct = async (req, res) => {
+  //   const { name, quantity, location } = req.body
+  //   try {
+  //     const preAllProduct = await AllProduct.findOne({ name })
+  //     console.log(preAllProduct, "preAllProduct")
+  //     // res.send(preAllProduct)
+  //     // const preProduct = await Product.findOne({ name })
 
-      const raju = await Product.find({ $and: [{ name }, { location }] })
+  //     const raju = await Product.find({ $and: [{ name }, { location }] })
 
-      if (preAllProduct === null && raju.length === 0) {
-        const allProduct = new AllProduct(req.body)
-        await allProduct.save()
-        const product = new Product(req.body)
-        await product.save()
-        console.log(allProduct, "330")
+  //     if (preAllProduct === null && raju.length === 0) {
+  //       const allProduct = new AllProduct(req.body)
+  //       await allProduct.save()
+  //       const product = new Product(req.body)
+  //       await product.save()
+  //       console.log(allProduct, "330")
 
-        // res.send({ status: "success" })
+  //       res.send({ status: "success" })
 
-      }
+  //     }
 
-      console.log(raju, "308")
+  //     console.log(raju, "308")
 
-      const preProduct = raju[0]
-      if (raju.length === 0 && preAllProduct !== null) {
-        // const allProduct = new AllProduct(req.body)
-        // await allProduct.save()
-        // if (allProduct) {
-        const product = new Product(req.body)
-        await product.save()
-        console.log(product, "pro")
-        // res.status(201).send(product)
-        // }
-        if (product) {
+  //     const preProduct = raju[0]
+  //     if (raju.length === 0 && preAllProduct !== null) {
+  //       // const allProduct = new AllProduct(req.body)
+  //       // await allProduct.save()
+  //       // if (allProduct) {
+  //       const product = new Product(req.body)
+  //       await product.save()
+  //       console.log(product, "pro")
+  //       // res.status(201).send(product)
+  //       // }
+  //       if (product) {
 
-          const newQuantity = preAllProduct.quantity + quantity
+  //         const newQuantity = preAllProduct.quantity + quantity
 
-          const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
-          // res.status(201).send(updateAllProduct)
-          console.log(updateAllProduct, "320")
+  //         const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
+  //         // res.status(201).send(updateAllProduct)
+  //         res.send({ status: "success" })
 
-        }
-      }
-      else {
-        const newQuantity = preProduct.quantity + quantity
-        const newAllQuantity = preAllProduct.quantity + quantity
-        const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
-        // if (preProduct.location == location) {
-        const { _id } = preProduct
-        const updateProduct = await Product.findOneAndUpdate({ _id }, { $set: { quantity: newQuantity } })
-        console.log(updateProduct, "340")
-        res.status(201).send(updateProduct)
-        // }
-      }
-      //  const  allProduct = new AllProduct({name,quantity})
-    } catch (e) {
-      res.status(400).send(e)
-    }
-  };
+  //         console.log(updateAllProduct, "320")
+
+  //       }
+  //     }
+  //     else {
+  //       const newQuantity = preProduct.quantity + quantity
+  //       const newAllQuantity = preAllProduct.quantity + quantity
+  //       const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
+  //       // if (preProduct.location == location) {
+  //       const { _id } = preProduct
+  //       const updateProduct = await Product.findOneAndUpdate({ _id }, { $set: { quantity: newQuantity } })
+  //       console.log(updateProduct, "340")
+  //       res.status(201).send(updateProduct)
+  //       // }
+  //     }
+  //     //  const  allProduct = new AllProduct({name,quantity})
+  //   } catch (e) {
+  //     res.status(400).send(e)
+  //   }
+  // };
 
 
   static addCategory = async (req, res) => {
@@ -497,7 +499,7 @@ class userController {
 
   static updateAddDeposite = async (req, res) => {
     // res.json(req.body)
-    const { billNumber, DepositebillNumber, cash, credit } = req.body
+    const { billNumber, DepositebillNumber, cash } = req.body
 
     try {
 
@@ -510,7 +512,7 @@ class userController {
       const userNewProduct = await Invoice.updateOne({ billNumber: billNumber }, { $inc: { credit: -Number(cash) } })
       console.log(userNewProduct, 'deposite succesfull');
       if (userNewProduct) {
-        const ram = await Deposite.findOneAndUpdate({ billNumber: billNumber }, { $set: { status: "Active" } })
+        const ram = await Deposite.findOneAndUpdate({ billNumber: billNumber }, { $set: { status: "Active", billNumber, DepositebillNumber, cash } })
         res.send({ status: "success", message: "bill updated" })
       }
 
@@ -627,13 +629,77 @@ class userController {
 
 
 
+  static addProduct = async (req, res) => {
+    const { name, quantity, location } = req.body
+    try {
+      const preAllProduct = await AllProduct.findOne({ name })
+      console.log(preAllProduct, "preAllProduct")
+      // res.send(preAllProduct)
+      // const preProduct = await Product.findOne({ name })
+
+      const raju = await Product.find({ $and: [{ name }, { location }] })
+
+      if (preAllProduct === null && raju.length === 0) {
+        const allProduct = new AllProduct(req.body)
+        await allProduct.save()
+        const product = new Product(req.body)
+        await product.save()
+        console.log(allProduct, "330")
+
+        res.send({ status: "success" })
+
+      }
+
+      console.log(raju, "308")
+
+      const preProduct = raju[0]
+      if (raju.length === 0 && preAllProduct !== null) {
+        // const allProduct = new AllProduct(req.body)
+        // await allProduct.save()
+        // if (allProduct) {
+        const product = new Product(req.body)
+        await product.save()
+        console.log(product, "pro")
+        // res.status(201).send(product)
+        // }
+        if (product) {
+
+          const newQuantity = preAllProduct.quantity + quantity
+
+          const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newQuantity } })
+          // res.status(201).send(updateAllProduct)
+          res.send({ status: "success" })
+
+          console.log(updateAllProduct, "320")
+
+        }
+      }
+      else {
+        const newQuantity = preProduct.quantity + quantity
+        const newAllQuantity = preAllProduct.quantity + quantity
+        const updateAllProduct = await AllProduct.findOneAndUpdate({ name }, { $set: { quantity: newAllQuantity } })
+        // if (preProduct.location == location) {
+        const { _id } = preProduct
+        const updateProduct = await Product.findOneAndUpdate({ _id }, { $set: { quantity: newQuantity } })
+        console.log(updateProduct, "340")
+        res.status(201).send(updateProduct)
+        // }
+      }
+      //  const  allProduct = new AllProduct({name,quantity})
+    } catch (e) {
+      res.status(400).send(e)
+    }
+  };
+
+
+
   static UpdateStorePurchage = async (req, res) => {
 
     try {
-      const { products, location } = req.body
+      const { products, location, billNumber, supplierName, totalAmount } = req.body
 
       const productLocation = await Product.find({ location })
-      // console.log(productLocation, 'productLocation')
+
 
 
       for (let index = 0; index < products.length; index++) {
@@ -641,9 +707,6 @@ class userController {
         const element2 = products[index].quantity;
 
         const userProduct = await AllProduct.findOne({ name: element1 })
-        console.log(userProduct, 80)
-        console.log(userProduct.quantity - element2, "80")
-        // console.log(userProduct.ToBeDelivered, "80")
         let olQuantity = userProduct.quantity
         let oldRemainingquantity = userProduct.Remainingquantity
 
@@ -673,21 +736,27 @@ class userController {
         }
         return ramu
       }
-      console.log(sita(), "message")
 
       for (let index = 0; index < sita().length; index++) {
         const element = sita()[index]._id;
         const newQuantity = sita()[index].quantity;
 
         await Product.findByIdAndUpdate(element, { $set: { quantity: newQuantity } })
-        // res.send({ "status": "success", "message": "location vice products  updated succesfully" })
-        if (sita().length - 1 == index) {
-          res.send({ "status": "success", "message": "location vice products  updated succesfully" })
 
-        }
+
+      }
+
+
+
+      const run = await StoreInvoice.findOneAndUpdate({ billNumber }, { $set: { status: "Active", products, totalAmount, supplierName } })
+
+      if (run) {
+        res.send({ "status": "success", "message": "location vice products  updated succesfully" })
+        console.log(run)
       }
 
     }
+
     catch (error) {
       console.log(error)
       return res.status(422).json({ error: "not found data" })
