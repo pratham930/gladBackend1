@@ -151,9 +151,11 @@ class userController {
         console.log(userNewProduct, "85")
       }
 
-      const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
-        $push: { Invioces: req.body.Invioces },
-      }).populate('Invioces')
+      const memberwithinvoces = await NewUser.updateOne({ _id: _id },
+        //    {$push: {Invioces:Invioces},
+        // }).populate('Invioces')
+        { $push: { Invioces: { $each: [...Invioces] } } }).populate("Invioces")
+
       console.log(memberwithinvoces)
       res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
 
