@@ -176,8 +176,12 @@ class userController {
     const keyword = req.query.search
       ? {
         $or: [
+          { deliveryStatus: { $eq: req.query.search } },
+          { assigned: { $eq: req.query.search } },
+
           { billNumber: { $regex: req.query.search, $options: "i" } },
-          { deliveryStatus: { $regex: req.query.search, $options: "i" } },
+
+          // { deliveryStatus: { $regex: req.query.search, $options: "i" } },
         ],
       }
       : {};
