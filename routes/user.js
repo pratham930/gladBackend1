@@ -58,6 +58,8 @@ router.get('/getexpancesById/:_id', authenticate, middile.admin, userController.
 router.get('/getStoreInvoiceById/:_id', authenticate, middile.admin, userController.getStoreInvoiceById);
 router.get('/GetcostumersInvoiceById/:_id', authenticate, middile.admin, userController.GetcostumersInvoiceById);
 router.get('/DailyDeliveryStatus', authenticate, middile.admin, userController.DailyDeliveryStatus);
+router.get('/GetCostumerInvoiceBySearch', authenticate, middile.admin, userController.GetCostumerInvoiceBySearch);
+router.get('/getProductByName/:name', authenticate, userController.getProductByName);
 
 
 

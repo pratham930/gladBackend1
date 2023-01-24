@@ -151,6 +151,13 @@ class userController {
         console.log(userNewProduct, "85")
       }
 
+
+      // const memberwithinvoces = await NewUser.findByIdAndUpdate(_id, {
+      //   $push: { Invioces:Invioces},
+      // }).populate('Invioces')
+
+      // res.send({ status: 'success', message: 'Invoices saved', memberwithinvoces })
+
       const memberwithinvoces = await NewUser.updateOne({ _id: _id },
         //    {$push: {Invioces:Invioces},
         // }).populate('Invioces')
@@ -163,6 +170,26 @@ class userController {
       console.log(error)
       return res.status(422).json({ error: 'not found data' })
     }
+  }
+
+  static GetCostumerInvoiceBySearch = async (req, res) => {
+    const keyword = req.query.search
+      ? {
+        $or: [
+          { billNumber: { $regex: req.query.search, $options: "i" } },
+          { deliveryStatus: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+      : {};
+
+    const users = await Invoice.find(keyword);
+    res.send(users);
+  };
+  static getProductByName = async (req, res) => {
+    const { name } = req.params
+    console.log(name)
+    const product = await Product.find({ name })
+    res.json(product)
   }
 
 
